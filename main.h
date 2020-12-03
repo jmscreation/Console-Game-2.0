@@ -68,15 +68,15 @@ public:
     void updatePos(short _x, short _y);
 };
 
-class Wall : public Object {
-    static std::vector<Wall*> walls;
+class Collidable : public Object {
+    static std::vector<Collidable*> collidables;
     size_t index;
 public:
-    Wall(short x, short y, char myChar, Draw* screen);
-    virtual ~Wall();
+    Collidable(short x, short y, char myChar, Draw* screen);
+    virtual ~Collidable();
 
-    static Wall* checkCollision(short x, short y);
-    static inline const std::vector<Wall*>& getWalls() { return walls; }
+    static Collidable* checkCollision(short x, short y);
+    static inline const std::vector<Collidable*>& getCollidables() { return collidables; }
 };
 
 

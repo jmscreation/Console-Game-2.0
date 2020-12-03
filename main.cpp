@@ -153,21 +153,21 @@ void Object::updatePos(short _x, short _y) {
 }
 
 
-vector<Wall*> Wall::walls;
+vector<Collidable*> Collidable::collidables;
 
-Wall::Wall(short x, short y, char myChar, Draw* screen) : Object(x, y, myChar, screen) {
-    index = walls.size();
-    walls.push_back(this);
+Collidable::Collidable(short x, short y, char myChar, Draw* screen) : Object(x, y, myChar, screen) {
+    index = collidables.size();
+    collidables.push_back(this);
 }
 
-Wall::~Wall() {
-    walls[index] = nullptr;
+Collidable::~Collidable() {
+    collidables[index] = nullptr;
 }
 
-Wall* Wall::checkCollision(short x, short y){
-    for(Wall* wall : walls){
-        if(wall == nullptr) continue;
-        if(x == wall->x && y == wall->y) return wall;
+Collidable* Collidable::checkCollision(short x, short y){
+    for(Collidable* obj : collidables){
+        if(obj == nullptr) continue;
+        if(x == obj->x && y == obj->y) return obj;
     }
     return nullptr;
 }
@@ -186,19 +186,19 @@ Game::Game(short width, short height): screen(new Draw(BACK_CHAR)), input(new In
 
     /// border walls
     for(short i=2; i<screen->getScreenSize().Y-1; i++){
-        new Wall(0, i, BORDER_CHAR, screen);
-        new Wall(screen->getScreenSize().X-1, i, BORDER_CHAR, screen);
+        new Collidable(0, i, BORDER_CHAR, screen);
+        new Collidable(screen->getScreenSize().X-1, i, BORDER_CHAR, screen);
     }
     for(short i=0; i<screen->getScreenSize().X; i++){
-        new Wall(i, 1, BORDER_CHAR, screen);
-        new Wall(i, screen->getScreenSize().Y-1, BORDER_CHAR, screen);
+        new Collidable(i, 1, BORDER_CHAR, screen);
+        new Collidable(i, screen->getScreenSize().Y-1, BORDER_CHAR, screen);
     }
 
     spawnScore(); // spawn first score
 
 }
 Game::~Game() {
-    for(Wall* wall : Wall::getWalls()) delete wall;
+    for(Collidable* obj : Collidable::getCollidables()) delete obj;
     delete user;
     delete input;
     delete screen;
@@ -211,9 +211,9 @@ void Game::spawnScore() {
         x = rand() % screen->getScreenSize().X;
         y = 1 + rand() % (screen->getScreenSize().Y - 1); // do not spawn at Y 0
         if(timeout.getSeconds() > 1) return; // cannot spawn so just return
-    } while(Wall::checkCollision(x, y) || (user->X() == x && user->Y() == y));
+    } while(Collidable::checkCollision(x, y) || (user->X() == x && user->Y() == y));
 
-    new Wall(x, y, POINT_CHAR, screen);
+    new Collidable(x, y, POINT_CHAR, screen);
 }
 
 ///Single Game Tick
@@ -261,7 +261,7 @@ bool Game::update() {
         if(keyTimer.getMilliseconds() < 300 && keyTimer.getMilliseconds() > 100) break; // allow easy single step motion
 
         /// Collision Event + Checking
-        Wall* cwall = Wall::checkCollision(x, y);
+        Collidable* cwall = Collidable::checkCollision(x, y);
         if(cwall != nullptr){
             switch(cwall->getChar()){
                 case BORDER_CHAR:{ // collision with border
@@ -290,17 +290,17 @@ bool Game::update() {
         }
 
         user->updatePos(x, y); // move player
-        new Wall(_x, _y, DWALL_CHAR, screen); // generate mini wall
+        new Collidable(_x, _y, DWALL_CHAR, screen); // generate mini wall
         score += 1; // gain score for moving
 
         bool stuck = true;
         {
             // check all sides for walls
-            Wall* sides[4] = {
-                Wall::checkCollision(x-1,y),
-                Wall::checkCollision(x+1,y),
-                Wall::checkCollision(x,y-1),
-                Wall::checkCollision(x,y+1)};
+            Collidable* sides[4] = {
+                Collidable::checkCollision(x-1,y),
+                Collidable::checkCollision(x+1,y),
+                Collidable::checkCollision(x,y-1),
+                Collidable::checkCollision(x,y+1)};
             for(int i=0; i<4; ++i){
                 if(sides[i] == nullptr){ stuck = false; break;}
                 char c = sides[i]->getChar();
