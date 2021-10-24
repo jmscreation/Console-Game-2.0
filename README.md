@@ -14,5 +14,19 @@ Spacebar -> Use Unlock
 
 This game was written for Windows.
 
-I use the MinGW compiler
-Download link: https://drive.google.com/drive/folders/1WPynZRhfQ73q2lGU1es5IduNChDuE-Of?usp=sharing
+# How To Build
+
+(Make sure the compiler's bin folder is configured in your environment PATH correctly)
+
+In cmd or powershell, change directory to the game folder.
+Run:
+`g++ main.cpp -std=c++17 -static-libstdc++ -o game.exe`
+
+# Download MinGW Compiler
+
+Downloads for MinGW GCC available here: https://github.com/brechtsanders/winlibs_mingw/releases
+
+This link is a stable MinGW64 version:
+https://github.com/brechtsanders/winlibs_mingw/releases/tag/11.2.0-12.0.1-9.0.0-r1
+
+The 64bit version is labeled: winlibs-x86_64-posix-seh-gcc-11.2.0-mingw-w64-9.0.0-r1
