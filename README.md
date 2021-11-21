@@ -7,7 +7,7 @@ Each token you collect gives you an unlock which lets you pass through a wall on
 
 Controls:
 
-Arrow Keys -> Move
+Arrow Keys -> Move  
 Spacebar -> Use Unlock
 
 
