@@ -27,6 +27,6 @@ Run:
 Downloads for MinGW GCC available here: https://github.com/brechtsanders/winlibs_mingw/releases
 
 This link is a stable MinGW64 version:
-https://github.com/brechtsanders/winlibs_mingw/releases/tag/11.2.0-12.0.1-9.0.0-r1
+https://github.com/brechtsanders/winlibs_mingw/releases/tag/11.2.0-9.0.0-msvcrt-r6
 
-The 64bit version is labeled: winlibs-x86_64-posix-seh-gcc-11.2.0-mingw-w64-9.0.0-r1
+The 64bit version is labeled: winlibs-x86_64-posix-seh-gcc-11.2.0-mingw-w64-9.0.0-r6 (.zip | .7z)
